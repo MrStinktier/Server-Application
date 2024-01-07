@@ -13,10 +13,9 @@ app.listen(PORT, () => {
 
 app.get('/Wakeup', async (req, res, next) => {
   try{
-    console.log("jep");
-    shell.exec('wakeonlan ');
-    shell.exec('wakeonlan ');
-    shell.exec('wakeonlan ');
+    shell.exec('wakeonlan 00:13:3b:0c:64:3f');
+    shell.exec('wakeonlan 00:13:3b:0c:64:3e');
+    //shell.exec('wakeonlan ');
     return res.sendStatus(200);
   }catch{
     return res.sendStatus(400);

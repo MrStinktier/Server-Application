@@ -15,6 +15,8 @@ app.get('/Wakeup', async (req, res, next) => {
   try{
     console.log("jep");
     shell.exec('wakeonlan ');
+    shell.exec('wakeonlan ');
+    shell.exec('wakeonlan ');
     return res.sendStatus(200);
   }catch{
     return res.sendStatus(400);

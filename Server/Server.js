@@ -22,6 +22,16 @@ app.get('/Wakeup', async (req, res, next) => {
   }
 })
 
+app.get('/start', async (req, res, next) => {
+	var mac = req.query.mac;
+	try{
+	  shell.exec(`wakeonlan ${mac}`);
+	  return res.sendStatus(200);
+	}catch{
+	  return res.sendStatus(400);
+	}
+  })
+
 app.get('/test', async (req, res, next) => {
 	return res.sendStatus(200);
 })

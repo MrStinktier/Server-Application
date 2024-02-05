@@ -11,7 +11,7 @@ app.listen(PORT, () => {
 	console.log(`Server Works !!! At port ${PORT}`);
 });
 
-app.get('/Wakeup', async (req, res, next) => {
+/*app.get('/Wakeup', async (req, res, next) => {
   try{
     shell.exec('wakeonlan 00:13:3b:0c:64:3f');
     shell.exec('wakeonlan 00:13:3b:0c:64:3e');
@@ -20,7 +20,7 @@ app.get('/Wakeup', async (req, res, next) => {
   }catch{
     return res.sendStatus(400);
   }
-})
+})*/
 
 app.get('/start', async (req, res, next) => {
 	var mac = req.query.mac;

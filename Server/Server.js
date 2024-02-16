@@ -88,16 +88,3 @@ app.get('/downloadmp4', async (req, res, next) => {
 		console.error(err);
 	}
 });
-
-app.get('/language', async (req, res, next) => {
-	try{
-		let lang = req.query.lang;
-		if(lang == "en"){
-			res.sendFile('/home/tim/Scripts/Server-Application/htmls/en.html');
-		}else if(lang == "de"){
-			res.sendFile('/home/tim/Scripts/Server-Application/htmls/de.html');
-		};
-	}catch (err){
-		console.error(err);
-	}
-});

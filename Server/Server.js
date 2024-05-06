@@ -8,9 +8,11 @@ const PORT = 4000;
 function date() {
 	let uhr = new Date().toLocaleTimeString();
 	if(uhr=="22:00:00"){
-		shell.exec(`sudo uhubctl -l 1-1 -a  off`);
+		shell.exec(`sudo uhubctl -l 1-1 -a off 1>&-`);
+        shell.exec(`echo Usb aus`);
 	}else if(uhr=="08:00:00"){
-		shell.exec(`sudo uhubctl -l 1-1 -a  on`);
+		shell.exec(`sudo uhubctl -l 1-1 -a on 1>&-`);
+        shell.exec(`echo "Usb an"`);
 	}
 	setTimeout(date, 500);
 }
@@ -25,10 +27,18 @@ app.listen(PORT, () => {
 
 app.get('/usb', async (req, res, next) => {	
 	var status = req.query.stat;
-	if(status=="on"){
-		shell.exec("sudo uhubctl -l 1-1 -a  on");
-	}else if(status=="off"){
-		shell.exec("sudo uhubctl -l 1-1 -a  off");
+	try{
+		if(status=="on"){
+			shell.exec("sudo uhubctl -l 1-1 -a on 1>&-");
+			shell.exec(`echo "Usb an"`);
+			return res.sendStatus(200);
+		}else if(status=="off"){
+			shell.exec("sudo uhubctl -l 1-1 -a off 1>&-");
+			shell.exec(`echo Usb aus`);
+			return res.sendStatus(200);
+		}
+	}catch{
+		return res.sendStatus(400);
 	}
 });
 

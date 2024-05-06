@@ -7,7 +7,6 @@ const PORT = 4000;
 
 function date() {
 	let uhr = new Date().toLocaleTimeString();
-
 	if(uhr=="22:00:00"){
 		shell.exec(`sudo uhubctl -l 1-1 -a  off`);
 	}else if(uhr=="08:00:00"){

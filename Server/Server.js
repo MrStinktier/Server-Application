@@ -8,7 +8,7 @@ const PORT = 4000;
 function date(status) {
 	let uhr = new Date().toLocaleTimeString();
 
-	
+
 	if(uhr=="22:00:00"){
 
 	}else if(uhr=="08:00:00"){
@@ -23,19 +23,9 @@ app.listen(PORT, () => {
 	console.log(`Server Works !!! At port ${PORT}`);
 });
 
-/*app.get('/Wakeup', async (req, res, next) => {
-  try{
-    shell.exec('wakeonlan 00:13:3b:0c:64:3f');
-    shell.exec('wakeonlan 00:13:3b:0c:64:3e');
-    //shell.exec('wakeonlan ');
-    return res.sendStatus(200);
-  }catch{
-    return res.sendStatus(400);
-  }
-})*/
-
 app.get('/usb', async (req, res, next) => {	
-	date();
+	var status = req.query.stat;
+	date(status);
 });
 
 app.get('/start', async (req, res, next) => {

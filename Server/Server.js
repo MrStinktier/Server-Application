@@ -5,6 +5,18 @@ const ytdl = require('ytdl-core');
 const app = express();
 const PORT = 4000;
 
+function date(status) {
+	let uhr = new Date().toLocaleTimeString();
+
+	
+	if(uhr=="22:00:00"){
+
+	}else if(uhr=="08:00:00"){
+
+	}
+	setTimeout(date, 500);
+}
+
 app.use(cors());
 
 app.listen(PORT, () => {
@@ -22,6 +34,10 @@ app.listen(PORT, () => {
   }
 })*/
 
+app.get('/usb', async (req, res, next) => {	
+	date();
+});
+
 app.get('/start', async (req, res, next) => {
 	var mac = req.query.mac;
 	try{
@@ -30,11 +46,11 @@ app.get('/start', async (req, res, next) => {
 	}catch{
 	  return res.sendStatus(400);
 	}
-  })
+  });
 
 app.get('/test', async (req, res, next) => {
 	return res.sendStatus(200);
-})
+});
 
 app.get('/downloadmp3', async (req, res, next) => {
 	try {

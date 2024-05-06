@@ -5,17 +5,18 @@ const ytdl = require('ytdl-core');
 const app = express();
 const PORT = 4000;
 
-function date(status) {
+function date() {
 	let uhr = new Date().toLocaleTimeString();
 
-
 	if(uhr=="22:00:00"){
-
+		shell.exec(`sudo uhubctl -l 1-1 -a  off`);
 	}else if(uhr=="08:00:00"){
-
+		shell.exec(`sudo uhubctl -l 1-1 -a  on`);
 	}
 	setTimeout(date, 500);
 }
+
+date();
 
 app.use(cors());
 
@@ -25,7 +26,11 @@ app.listen(PORT, () => {
 
 app.get('/usb', async (req, res, next) => {	
 	var status = req.query.stat;
-	date(status);
+	if(status=="on"){
+		shell.exec("sudo uhubctl -l 1-1 -a  on");
+	}else if(status=="off"){
+		shell.exec("sudo uhubctl -l 1-1 -a  off");
+	}
 });
 
 app.get('/start', async (req, res, next) => {

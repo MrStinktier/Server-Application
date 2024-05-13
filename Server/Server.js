@@ -10,9 +10,6 @@ function date() {
 	if(uhr=="22:00:00"){
 		shell.exec(`sudo uhubctl -l 1-1 -a off 1>&-`);
         shell.exec(`echo Usb aus`);
-	}else if(uhr=="08:00:00"){
-		shell.exec(`sudo uhubctl -l 1-1 -a on 1>&-`);
-        shell.exec(`echo "Usb an"`);
 	}
 	setTimeout(date, 500);
 }

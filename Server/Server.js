@@ -54,6 +54,9 @@ app.get('/usb', async (req, res, next) => {
 			datestat = new Date().toLocaleTimeString();
 			activated = "True";
 			return res.sendStatus(200);
+		}else if(status=="reboot"){
+			shell.exec("sudo apt update && sudo apt full-upgrade -y && sudo reboot");
+			return res.sendStatus(200);
 		}
 	}catch{
 		return res.sendStatus(400);

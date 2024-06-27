@@ -3,7 +3,6 @@ const cors = require('cors');
 const shell = require('shelljs');
 const ytdl = require('ytdl-core');
 const isReachable = require('is-reachable');
-const ping = require('ping');
 const app = express();
 const PORT = 4000;
 
@@ -16,6 +15,7 @@ function date() {
 		if(uhr>="22:00:00"){
 			if(activated=="False"){
 				shell.exec(`sudo uhubctl -l 1-1 -a off 1>&-`);
+				display();
         		shell.exec(`echo Usb aus`);
         		activated = "True";
 			}
@@ -26,10 +26,15 @@ function date() {
 
 date();
 
+function display() {
+	shell.exec("figlet Server Works");
+}
+
 app.use(cors());
 
 app.listen(PORT, () => {
-	console.log(`Server Works !!! At port ${PORT}`);
+	display();
+	//shell.exec("echo Server Works | figlet");
 });
 
 app.get('/usb', async (req, res, next) => {	
@@ -37,12 +42,14 @@ app.get('/usb', async (req, res, next) => {
 	try{
 		if(status=="on"){
 			shell.exec("sudo uhubctl -l 1-1 -a on 1>&-");
+			display();
 			shell.exec(`echo "Usb an"`);
 			datestat = new Date().toLocalTimeString();
 			activated = "False";			
 			return res.sendStatus(200);
 		}else if(status=="off"){
 			shell.exec("sudo uhubctl -l 1-1 -a off 1>&-");
+			display();
 			shell.exec(`echo Usb aus`);
 			datestat = new Date().toLocaleTimeString();
 			activated = "True";
@@ -56,10 +63,11 @@ app.get('/usb', async (req, res, next) => {
 app.get('/start', async (req, res, next) => {
 	var mac = req.query.mac;
 	try{
-	  shell.exec(`wakeonlan ${mac}`);
-	  return res.sendStatus(200);
+		display();
+	  	shell.exec(`wakeonlan ${mac}`);
+	  	return res.sendStatus(200);
 	}catch{
-	  return res.sendStatus(400);
+	  	return res.sendStatus(400);
 	}
   });
 
@@ -69,20 +77,18 @@ app.get('/testin', async (req, res, next) => {
 		if(status=="self"){
 			return res.sendStatus(200);
 		}else{
-			var stat = await isReachable(status);
+			var ip = status+":445";
+			var stat = await isReachable(ip);
 			if(stat==true){
 				return res.sendStatus(200);
 			}else if(stat==false){
 				return res.sendStatus(400);
 			}
 		}
-	}catch{
+	}catch(err){
+		console.log(err);
 		return res.sendStatus(400);
 	}
-});
-
-app.get('/test', async (req, res, next) => {
-	return res.sendStatus(200);
 });
 
 /*app.get('/downloadmp3', async (req, res, next) => {

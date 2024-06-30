@@ -57,7 +57,7 @@ app.get('/button', async (req, res, next) => {
 			shell.exec("sudo apt update && sudo apt full-upgrade -y && sudo reboot");
 			return res.sendStatus(200);
 		}else if(status=="git-push"){
-			shell.exec("cd /home/tim/Scripts/Server-Application/ && sudo git commit -a -m 'Server backend backup' && sudo git push")
+			shell.exec("cd /home/tim/Scripts/Server-Application/ && sudo git commit -a -m 'Server backend backup' && sudo git push");
 		}
 	}catch{
 		return res.sendStatus(400);

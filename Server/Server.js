@@ -36,17 +36,17 @@ app.listen(PORT, () => {
 	display();
 });
 
-app.get('/usb', async (req, res, next) => {	
+app.get('/button', async (req, res, next) => {	
 	var status = req.query.stat;
 	try{
-		if(status=="on"){
+		if(status=="usbon"){
 			shell.exec("sudo uhubctl -l 1-1 -a on 1>&-");
 			display();
 			shell.exec(`echo "Usb an"`);
 			datestat = new Date().toLocalTimeString();
 			activated = "False";			
 			return res.sendStatus(200);
-		}else if(status=="off"){
+		}else if(status=="usboff"){
 			shell.exec("sudo uhubctl -l 1-1 -a off 1>&-");
 			display();
 			shell.exec(`echo Usb aus`);
@@ -56,6 +56,8 @@ app.get('/usb', async (req, res, next) => {
 		}else if(status=="reboot"){
 			shell.exec("sudo apt update && sudo apt full-upgrade -y && sudo reboot");
 			return res.sendStatus(200);
+		}else if(status=="git-push"){
+			shell.exec("cd /home/tim/Scripts/Server-Application/ && sudo git commit -a -m 'Server backend backup' && sudo git push")
 		}
 	}catch{
 		return res.sendStatus(400);

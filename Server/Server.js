@@ -34,7 +34,6 @@ app.use(cors());
 
 app.listen(PORT, () => {
 	display();
-	//shell.exec("echo Server Works | figlet");
 });
 
 app.get('/usb', async (req, res, next) => {	
@@ -78,6 +77,9 @@ app.get('/testin', async (req, res, next) => {
 	var status = req.query.stat
 	try{
 		if(status=="self"){
+			/*const { stdout, stderr, code } = shell.exec("sudo vcgencmd measure_temp");
+			console.log(stoudt);*/
+			//console.log(shell.exec("vcgencmd measure_temp"));
 			return res.sendStatus(200);
 		}else{
 			var ip = status+":445";
@@ -93,57 +95,3 @@ app.get('/testin', async (req, res, next) => {
 		return res.sendStatus(400);
 	}
 });
-
-/*app.get('/downloadmp3', async (req, res, next) => {
-	try {
-		var url = req.query.url;
-		if(!ytdl.validateURL(url)) {
-			return res.sendStatus(400);
-		}
-
-        let title = "audio";
-
-		await ytdl.getBasicInfo(url, {
-			format: 'mp3'
-		}, (err, info) => {
-			if (err) throw err;
-			title = info.player_response.videoDetails.title.replace(/[^\x00-\x7F]/g, "");
-		});
-
-		res.header('Content-Disposition', `attachment; filename="${title}.mp3"`);
-		ytdl(url, {
-			format: 'mp3',
-			filter: 'audioonly',
-		}).pipe(res);
-
-	} catch (err) {
-		console.error(err);
-	}
-});
-
-app.get('/downloadmp4', async (req, res, next) => {
-	try {
-		let url = req.query.url;
-		if(!ytdl.validateURL(url)) {
-			return res.sendStatus(400);
-		}
-
-		let title = "video";
-
-		await ytdl.getBasicInfo(url, {
-			format: 'mp4'
-		}, (err, info) => {
-			title = info.player_response.videoDetails.title.replace(/[^\x00-\x7F]/g, "");
-		});
-		
-		res.header('Content-Disposition', `attachment; filename="${title}.mp4"`);
-		ytdl(url, {
-			format: 'mp4',
-			quality: 'highest'
-		}).pipe(res); 
-
-	} catch (err) {
-		console.error(err);
-	}
-});
-*/

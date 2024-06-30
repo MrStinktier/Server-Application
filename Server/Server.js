@@ -77,10 +77,9 @@ app.get('/testin', async (req, res, next) => {
 	var status = req.query.stat
 	try{
 		if(status=="self"){
-			/*const { stdout, stderr, code } = shell.exec("sudo vcgencmd measure_temp");
-			console.log(stoudt);*/
-			//console.log(shell.exec("vcgencmd measure_temp"));
-			return res.sendStatus(200);
+			const output = await shell.exec("vcgencmd measure_temp").stdout.split("'")[0].split("=")[1];
+			res.set('Content-Type', 'text/plain');
+			return res.send(output);
 		}else{
 			var ip = status+":445";
 			var stat = await isReachable(ip);

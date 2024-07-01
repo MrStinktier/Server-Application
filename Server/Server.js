@@ -20,6 +20,15 @@ function date() {
         		activated = "True";
 			}
 		}
+	}else if(datestat>="08:00:00"){
+		if(uhr<="08:00:00"){
+			if(activated=="False"){
+				shell.exec(`sudo uhubctl -l 1-1 -a off 1>&-`);
+				display();
+				shell.exec(`echo Usb aus`);
+				activated = "True";
+			}
+		}
 	}
 	setTimeout(date, 500);
 }
@@ -33,6 +42,8 @@ function display() {
 app.use(cors());
 
 app.listen(PORT, () => {
+	shell.exec("sudo uhubctl -l 1-1 -a off 1>&-");
+	activated = "True";
 	display();
 });
 
@@ -58,8 +69,11 @@ app.get('/button', async (req, res, next) => {
 			return res.sendStatus(200);
 		}else if(status=="git-push"){
 			shell.exec("cd /home/tim/Scripts/Server-Application/ && sudo git commit -a -m 'Server backend backup' && sudo git push");
+			display();
+			return res.sendStatus(200);
 		}
-	}catch{
+	}catch(err){
+		console.log(err);
 		return res.sendStatus(400);
 	}
 });
@@ -70,7 +84,8 @@ app.get('/start', async (req, res, next) => {
 		display();
 	  	shell.exec(`wakeonlan ${mac}`);
 	  	return res.sendStatus(200);
-	}catch{
+	}catch(err){
+		console.log(err);
 	  	return res.sendStatus(400);
 	}
   });

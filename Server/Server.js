@@ -2,7 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const shell = require('shelljs');
 const ytdl = require('ytdl-core');
-const isReachable = require('is-reachable');
+const ping = require('ping');
 const app = express();
 const PORT = 4000;
 
@@ -98,12 +98,15 @@ app.get('/testin', async (req, res, next) => {
 			res.set('Content-Type', 'text/plain');
 			return res.send(output);
 		}else{
-			var ip = status+":445";
-			var stat = await isReachable(ip);
-			if(stat==true){
-				return res.sendStatus(200);
-			}else if(stat==false){
-				return res.sendStatus(400);
+			ping.sys.probe(status, function(isAlive){
+				isAlive ? response(200) : response(400);
+			});
+			async function response(stat){
+				if(stat=="200"){
+					return res.sendStatus(200);
+				}else{
+					return res.sendStatus(400);
+				}
 			}
 		}
 	}catch(err){

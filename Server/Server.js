@@ -99,15 +99,11 @@ app.get('/testin', async (req, res, next) => {
 			return res.send(output);
 		}else{
 			ping.sys.probe(status, function(isAlive){
-				isAlive ? response(200) : response(400);
+				isAlive ? send(200) : send(400);
 			});
-			async function response(stat){
-				if(stat=="200"){
-					return res.sendStatus(200);
-				}else{
-					return res.sendStatus(400);
-				}
-			}
+		}
+		async function send(stat){
+			return res.sendStatus(stat);
 		}
 	}catch(err){
 		console.log(err);

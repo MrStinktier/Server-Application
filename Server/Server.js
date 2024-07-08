@@ -64,11 +64,19 @@ app.get('/button', async (req, res, next) => {
 			datestat = new Date().toLocaleTimeString();
 			activated = "True";
 			return res.sendStatus(200);
-		}else if(status=="reboot"){
+		}else if(status=="raspi-reboot"){
 			shell.exec("sudo apt update && sudo apt full-upgrade -y && sudo reboot");
 			return res.sendStatus(200);
 		}else if(status=="git-push"){
 			shell.exec("cd /home/tim/Scripts/Server-Application/ && sudo git commit -a -m 'Saving Github Pages backend' && sudo git push");
+			display();
+			return res.sendStatus(200);
+		}else if(status=="shutdown"){
+			shell.exec("net rpc shutdown -r -t 5 -C 'Remote Neustart' -I 192.168.115.66 -U tim-b%70mauS18");
+			display();
+			return res.sendStatus(200);
+		}else if(status=="reboot"){
+			shell.exec("net rpc shutdown -t 5 -C 'Remote Shutdown' -I 192.168.115.66 -U tim-b%70mauS18");
 			display();
 			return res.sendStatus(200);
 		}

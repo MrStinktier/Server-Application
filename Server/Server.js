@@ -78,6 +78,14 @@ app.get('/button', async (req, res, next) => {
 			shell.exec("net rpc shutdown -r -t 5 -C 'Remote Shutdown' -I 192.168.115.66 -U tim-b%70mauS18");
 			display();
 			return res.sendStatus(200);
+		}else if(status=="proxmox-shutdown"){
+			shell.exec("ssh root@192.168.115.86 shutdown -hf now");
+			display();
+			return res.sendStatus(200);
+		}else if(status=="proxmox-reboot"){
+			shell.exec("ssh root@192.168.115.86 shutdown -rf now");
+			display();
+			return res.sendStatus(200);
 		}
 	}catch(err){
 		console.log(err);

@@ -72,11 +72,11 @@ app.get('/button', async (req, res, next) => {
 			display();
 			return res.sendStatus(200);
 		}else if(status=="shutdown"){
-			shell.exec("net rpc shutdown -r -t 5 -C 'Remote Neustart' -I 192.168.115.66 -U tim-b%70mauS18");
+			shell.exec("net rpc shutdown -t 5 -C 'Remote Neustart' -I 192.168.115.66 -U tim-b%70mauS18");
 			display();
 			return res.sendStatus(200);
 		}else if(status=="reboot"){
-			shell.exec("net rpc shutdown -t 5 -C 'Remote Shutdown' -I 192.168.115.66 -U tim-b%70mauS18");
+			shell.exec("net rpc shutdown -r -t 5 -C 'Remote Shutdown' -I 192.168.115.66 -U tim-b%70mauS18");
 			display();
 			return res.sendStatus(200);
 		}

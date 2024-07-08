@@ -1,7 +1,6 @@
 const express = require('express');
 const cors = require('cors');
 const shell = require('shelljs');
-const ytdl = require('ytdl-core');
 const ping = require('ping');
 const app = express();
 const PORT = 4000;

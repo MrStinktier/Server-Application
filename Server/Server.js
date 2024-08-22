@@ -93,6 +93,53 @@ app.get('/button', async (req, res, next) => {
 	}
 });
 
+app.get('/usage', async (req, res, next) => {
+	var id = req.query.id;
+	var stat = req.query.stat;
+	try{
+		if(id=="desktop"){
+			if(stat=="wakeup"){
+				console.log("jep");
+				return res.sendStatus(200);
+			}else if(stat=="reboot"){
+				console.log("jep");
+				return res.sendStatus(200);
+			}else if(stat=="shutdown"){
+				console.log("jep");
+				return res.sendStatus(200);
+			}
+		}else if(id=="nas"){
+			if(stat=="wakeup"){
+				console.log("jep");
+				return res.sendStatus(200);
+			}else if(stat=="reboot"){
+				console.log("jep");
+				return res.sendStatus(200);
+			}else if(stat=="shutdown"){
+				console.log("jep");
+				return res.sendStatus(200);
+			}
+		}else if(id=="raspberry"){
+			if(stat=="reboot"){
+				console.log("jep");
+				return res.sendStatus(200);
+			}else if(stat=="gitpush"){
+				console.log("jep");
+				return res.sendStatus(200);
+			}else if(stat=="usbon"){
+				console.log("jep");
+				return res.sendStatus(200);
+			}else if(stat=="usboff"){
+				console.log("jep");
+				return res.sendStatus(200);
+			}
+		}
+	}catch(err){
+		console.log(err)
+		return res.sendStatus(400);
+	}
+});
+
 app.get('/start', async (req, res, next) => {
 	var mac = req.query.mac;
 	try{

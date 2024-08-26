@@ -99,38 +99,53 @@ app.get('/usage', async (req, res, next) => {
 	try{
 		if(id=="desktop"){
 			if(stat=="wakeup"){
-				console.log("jep");
-				return res.sendStatus(200);
+				display();
+			  	shell.exec(`wakeonlan 00:13:3b:0c:64:3f`);
+			  	return res.sendStatus(200);
 			}else if(stat=="reboot"){
-				console.log("jep");
+				shell.exec("net rpc shutdown -r -t 5 -C 'Remote Reboot' -I 192.168.115.66 -U tim-b%70mauS18");
+				display();
 				return res.sendStatus(200);
 			}else if(stat=="shutdown"){
-				console.log("jep");
+				shell.exec("net rpc shutdown -t 5 -C 'Remote Shutdown' -I 192.168.115.66 -U tim-b%70mauS18");
+				display();
 				return res.sendStatus(200);
 			}
 		}else if(id=="nas"){
 			if(stat=="wakeup"){
-				console.log("jep");
-				return res.sendStatus(200);
+				display();
+			  	shell.exec(`wakeonlan a0:b3:cc:eb:0d:d3`);
+			  	return res.sendStatus(200);
 			}else if(stat=="reboot"){
-				console.log("jep");
+				shell.exec("ssh root@192.168.115.86 shutdown -rf now");
+				display();
 				return res.sendStatus(200);
 			}else if(stat=="shutdown"){
-				console.log("jep");
+				shell.exec("ssh root@192.168.115.86 shutdown -hf now");
+				display();
 				return res.sendStatus(200);
 			}
 		}else if(id=="raspberry"){
 			if(stat=="reboot"){
-				console.log("jep");
+				shell.exec("sudo apt update && sudo apt full-upgrade -y && sudo reboot");
 				return res.sendStatus(200);
 			}else if(stat=="gitpush"){
-				console.log("jep");
+				shell.exec("cd /home/tim/Scripts/Server-Application/ && sudo git commit -a -m 'Saving Github Pages backend' && sudo git push");
+				display();
 				return res.sendStatus(200);
 			}else if(stat=="usbon"){
-				console.log("jep");
+				shell.exec("sudo uhubctl -l 1-1 -a on 1>&-");
+				display();
+				shell.exec(`echo "Usb an"`);
+				datestat = new Date().toLocalTimeString();
+				activated = "False";			
 				return res.sendStatus(200);
 			}else if(stat=="usboff"){
-				console.log("jep");
+				shell.exec("sudo uhubctl -l 1-1 -a off 1>&-");
+				display();
+				shell.exec(`echo Usb aus`);
+				datestat = new Date().toLocaleTimeString();
+				activated = "True";
 				return res.sendStatus(200);
 			}
 		}
@@ -160,12 +175,9 @@ app.get('/testin', async (req, res, next) => {
 			res.set('Content-Type', 'text/plain');
 			return res.send(output);
 		}else{
-			ping.sys.probe(status, function(isAlive){
-				isAlive ? send(200) : send(300);
+			await ping.sys.probe(status, function(isAlive){
+				return res.sendStatus(isAlive ? 200 : 400);
 			});
-		}
-		async function send(stat){
-			return res.sendStatus(stat);
 		}
 	}catch(err){
 		console.log(err);

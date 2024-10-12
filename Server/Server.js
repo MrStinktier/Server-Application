@@ -130,7 +130,8 @@ app.get('/usage', async (req, res, next) => {
 				shell.exec("sudo apt update && sudo apt full-upgrade -y && sudo reboot");
 				return res.sendStatus(200);
 			}else if(stat=="gitpush"){
-				shell.exec("cd /home/tim/Scripts/Server-Application/ && sudo git commit -a -m 'Saving Github Pages backend' && sudo git push && cd /home/tim/Scripts/PythonLCD/ && sudo git commit -a -m 'Saving python script for the i2c LCD Screen' && sudo git push");
+				shell.exec("cd /home/tim/Scripts/Server-Application/ && sudo git commit -a -m 'Saving Github Pages backend' && sudo git push");
+				shell.exec("cd /home/tim/Scripts/PythonLCD/ && sudo git commit -a -m 'Saving python script for the i2c LCD Screen' && sudo git push");
 				display();
 				return res.sendStatus(200);
 			}else if(stat=="usbon"){
